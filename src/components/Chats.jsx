@@ -1,15 +1,47 @@
-import React from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
+import { db } from "../firebase";
 
 const Chats = () => {
+  const [chats, setChats] = useState([]);
+  const { currentUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
+
+  useEffect(() => {
+    const getChats = () => {
+      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+        setChats(doc.data());
+      });
+
+      return () => {
+        unsub();
+      };
+    };
+
+    currentUser.uid && getChats();
+  }, [currentUser.uid]);
+
+  const handleSelect = (u) => {
+    dispatch({ type: "CHANGE_USER", payload: u });
+  };
+
   return (
     <div className="chats">
-      <div className="userChat">
-        <img src="https://scontent.fdvo4-1.fna.fbcdn.net/v/t39.30808-6/320338470_485182650354466_7009846486353753713_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeHxlUkYfgVM7tLXGZyUHqDDJXWrcdSl-Gkldatx1KX4aYsfrzF0XwHaZnSWevUxTbc00gDP2Q-oQzxdqQX-g0T3&_nc_ohc=nMKcEG1N_c4AX-bM5Dl&_nc_ht=scontent.fdvo4-1.fna&oh=00_AfDA-2354hnNtneWU1h3O19DSVdIU7n4_YYkL0lhc2KdRA&oe=63B6EF29" />
-        <div className="userChatInfo">
-          <span>Aloha</span>
-          <p>Hello</p>
+      {Object.entries(chats)?.map((chat) => (
+        <div
+          className="userChat"
+          key={chat[0]}
+          onClick={() => handleSelect(chat[1].userInfo)}
+        >
+          <img src={chat[1].userInfo.photoURL} />
+          <div className="userChatInfo">
+            <span>{chat[1].userInfo.displayName}</span>
+            <p>{chat[1].userInfo.lastMessage?.text}</p>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 };
