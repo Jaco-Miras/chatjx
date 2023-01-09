@@ -260,8 +260,10 @@
       .message {
         display: flex;
         gap: 40px;
+        margin-bottom: 20px;
 
         .messageInfo {
+          color: gray;
           display: flex;
           flex-direction: column;
           font-weight: 300;
@@ -346,6 +348,7 @@
           padding: 10px;
           color: white;
           background-color: #08a4a7;
+          cursor: pointer;
         }
       }
     }
