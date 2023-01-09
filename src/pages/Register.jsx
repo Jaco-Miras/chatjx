@@ -7,10 +7,17 @@ import { doc, setDoc } from "firebase/firestore";
 import { BiImageAdd } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 
+import Icon from "react-icons-kit";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import { eye } from "react-icons-kit/feather/eye";
+
 const Register = () => {
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const [type, setType] = useState("password");
+  const [icon, setIcon] = useState(eyeOff);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,6 +67,15 @@ const Register = () => {
     }
   };
 
+  const handleToggle = () => {
+    if (type === "password") {
+      setIcon(eye);
+      setType("text");
+    } else {
+      setIcon(eyeOff);
+      setType("password");
+    }
+  };
   return (
     <div className="formContainer">
       <div className="formWrapper">
@@ -68,7 +84,11 @@ const Register = () => {
         <form onSubmit={handleSubmit}>
           <input type="text" placeholder="username" />
           <input type="email" placeholder="email" />
-          <input type="password" placeholder="password" />
+          <input type={type} placeholder="password" />
+          <span onClick={handleToggle}>
+            <Icon icon={icon} size={15} />
+            show password
+          </span>
           <input style={{ display: "none" }} type="file" id="file" />
           <label htmlFor="file">
             <BiImageAdd />

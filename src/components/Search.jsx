@@ -84,7 +84,7 @@ const Search = () => {
       <div className="searchForm">
         <input
           type="text"
-          placeholder="find a user"
+          placeholder="Search Chat"
           onKeyDown={handleKey}
           onChange={(e) => setUsername(e.target.value)}
           value={username}
