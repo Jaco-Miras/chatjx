@@ -3,11 +3,12 @@ import Register from "./pages/Register";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./context/AuthContext";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   // console.log("WOW", currentUser);
 
@@ -36,7 +37,6 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-      {/* <Register /> */}
     </div>
   );
 }
