@@ -21,7 +21,9 @@ const Input = () => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
-  const handleSend = async () => {
+  const handleSend = async (e) => {
+    e.preventDefault();
+
     if (img) {
       const storageRef = ref(storage, uuid());
 
@@ -77,27 +79,29 @@ const Input = () => {
   };
 
   return (
-    <div className="input">
-      <input
-        type="text"
-        placeholder="Type something..."
-        onChange={(e) => setText(e.target.value)}
-        value={text}
-      />
-      <div className="send">
-        <MdAttachFile />
+    <form onSubmit={handleSend}>
+      <div className="input">
         <input
-          type="file"
-          style={{ display: "none" }}
-          id="file"
-          onChange={(e) => setImg(e.target.files[0])}
+          type="text"
+          placeholder="Type something..."
+          onChange={(e) => setText(e.target.value)}
+          value={text}
         />
-        <label htmlFor="file">
-          <FaImage />
-        </label>
-        <button onClick={handleSend}>Send</button>
+        <div className="send">
+          <MdAttachFile />
+          <input
+            type="file"
+            style={{ display: "none" }}
+            id="file"
+            onChange={(e) => setImg(e.target.files[0])}
+          />
+          <label htmlFor="file">
+            <FaImage />
+          </label>
+          <button onClick={handleSend}>Send</button>
+        </div>
       </div>
-    </div>
+    </form>
   );
 };
 
