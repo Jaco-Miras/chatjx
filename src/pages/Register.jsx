@@ -16,6 +16,8 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const [imageUrl, setImageUrl] = useState(null);
+
   const [type, setType] = useState("password");
   const [icon, setIcon] = useState(eyeOff);
 
@@ -76,6 +78,22 @@ const Register = () => {
       setType("password");
     }
   };
+
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    if (!file) {
+      setImageUrl("");
+      return;
+    }
+
+    reader.onloadend = () => {
+      setImageUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="formContainer">
       <div className="formWrapper">
@@ -89,9 +107,15 @@ const Register = () => {
             <Icon icon={icon} size={15} />
             show password
           </span>
-          <input style={{ display: "none" }} type="file" id="file" />
+          <input
+            style={{ display: "none" }}
+            type="file"
+            id="file"
+            accept="image/*"
+            onChange={handleChange}
+          />
           <label htmlFor="file">
-            <BiImageAdd />
+            {imageUrl ? <img src={imageUrl} alt="Preview" /> : <BiImageAdd />}
             <span>Add an avatar</span>
           </label>
           <button>Sign Up</button>
