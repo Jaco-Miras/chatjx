@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Icon from "react-icons-kit";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
   const [err, setErr] = useState(false);
@@ -56,16 +57,19 @@ const Register = () => {
             //create empty user chats on firestore
             await setDoc(doc(db, "userChats", res.user.uid), {});
             navigate("/");
+            toast.success("Registered Successfully!");
           } catch (err) {
-            console.log(err);
-            setErr(true);
-            setLoading(false);
+            // console.log(err);
+            // setErr(true);
+            // setLoading(false);
+            toast.error("Something went wrong");
           }
         });
       });
     } catch (err) {
-      setErr(true);
-      setLoading(false);
+      // setErr(true);
+      // setLoading(false);
+      toast.error("Something went wrong");
     }
   };
 
@@ -100,9 +104,9 @@ const Register = () => {
         <span className="logo">ChatJx</span>
         <span className="title">Register</span>
         <form onSubmit={handleSubmit}>
-          <input type="text" placeholder="username" />
-          <input type="email" placeholder="email" />
-          <input type={type} placeholder="password" />
+          <input type="text" placeholder="username" required />
+          <input type="email" placeholder="email" required />
+          <input type={type} placeholder="password" required />
           <span onClick={handleToggle}>
             <Icon icon={icon} size={15} />
             show password
@@ -113,13 +117,13 @@ const Register = () => {
             id="file"
             accept="image/*"
             onChange={handleChange}
+            required
           />
           <label htmlFor="file">
             {imageUrl ? <img src={imageUrl} alt="Preview" /> : <BiImageAdd />}
             <span>Add an avatar</span>
           </label>
           <button>Sign Up</button>
-          {err && <span>Something went wrong!</span>}
         </form>
         <p>
           You do have an account? <Link to="/login">Login</Link>

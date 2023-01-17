@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Toaster } from "react-hot-toast";
 
 import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
@@ -10,6 +11,7 @@ root.render(
   <AuthContextProvider>
     <ChatContextProvider>
       <React.StrictMode>
+        <Toaster />
         <App />
       </React.StrictMode>
     </ChatContextProvider>

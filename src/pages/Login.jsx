@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { toast } from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 import Icon from "react-icons-kit";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
@@ -21,9 +22,9 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/");
-      toast.success("Sign In ");
+      toast.success("Logged In Successfully! ");
     } catch (err) {
-      toast.error(err, "Credentials does not match!");
+      toast.error("Credentials does not match!");
     }
   };
 
