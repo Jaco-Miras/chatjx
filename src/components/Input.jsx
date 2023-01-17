@@ -17,6 +17,7 @@ import { ChatContext } from "../context/ChatContext";
 const Input = () => {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
+  // const [imageUrl, setImageUrl] = useState(null);
 
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
@@ -75,12 +76,28 @@ const Input = () => {
     });
 
     setText("");
-    setImg(null);
+    // setImg(null);
+  };
+
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    if (!file) {
+      setImg("");
+      return;
+    }
+
+    reader.onloadend = () => {
+      setImg(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
     <form onSubmit={handleSend}>
       <div className="input">
+        {img ? <img src={img} alt="Preview" /> : null}
         <input
           type="text"
           placeholder="Type something..."
@@ -88,11 +105,12 @@ const Input = () => {
           value={text}
         />
         <div className="send">
-          <MdAttachFile />
+          {/* <MdAttachFile /> */}
           <input
             type="file"
             style={{ display: "none" }}
             id="file"
+            accept="image/*"
             onChange={(e) => setImg(e.target.files[0])}
           />
           <label htmlFor="file">
