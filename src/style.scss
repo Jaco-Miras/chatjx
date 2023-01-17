@@ -88,6 +88,7 @@
         gap: 10px;
         color: grey;
         font-size: 15px;
+        cursor: pointer;
       }
     }
 
@@ -355,6 +356,12 @@
           color: white;
           background-color: #08a4a7;
           cursor: pointer;
+
+          &:disabled {
+            background-color: grey;
+            color: white;
+            cursor: not-allowed;
+          }
         }
       }
     }

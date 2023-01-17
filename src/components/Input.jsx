@@ -98,7 +98,7 @@ const Input = () => {
           <label htmlFor="file">
             <FaImage />
           </label>
-          <button onClick={handleSend}>Send</button>
+          <button disabled={!text}>Send</button>
         </div>
       </div>
     </form>
